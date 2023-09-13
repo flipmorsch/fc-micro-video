@@ -6,7 +6,7 @@ describe('Category', () => {
     const props = {
       name: 'Movie',
       created_at,
-      is_active: true,
+      is_active: false,
       description: 'Movies',
     }
 
@@ -14,9 +14,45 @@ describe('Category', () => {
 
     expect(category.name).toBe('Movie')
     expect(category.description).toBe('Movies')
-    expect(category.is_active).toBeTruthy()
+    expect(category.is_active).toBeFalsy()
     expect(category.created_at).toBeInstanceOf(Date)
     expect(category.created_at).toEqual(props.created_at)
     expect(category.props).toStrictEqual(props)
+  })
+
+  test('should set is_active to true if this property is not defined', () => {
+    const props = {
+      name: 'Movie',
+    }
+
+    const category = new Category(props)
+
+    expect(category.is_active).toBeTruthy()
+    expect(category.props).toStrictEqual({...props, is_active: true})
+  })
+
+  test('should set description to null if this property is not defined', () => {
+    const props = {
+      name: 'Movie',
+    }
+
+    const category = new Category(props)
+    console.log(props)
+
+    expect(category.description).toBeNull()
+    expect(category.props).toStrictEqual({...props, description: null})
+  })
+
+  test('should set created_at to current date if this property is not defined', () => {
+    const props = {
+      name: 'Movie',
+    }
+
+    const category = new Category(props)
+    const currentDate = new Date()
+
+    expect(category.created_at).toBeInstanceOf(Date)
+    expect(category.created_at).toEqual(currentDate)
+    expect(category.props).toStrictEqual({...props})
   })
 })
