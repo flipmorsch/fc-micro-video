@@ -6,22 +6,37 @@ export type CategoryProperties = {
 }
 
 export class Category {
-  constructor(public readonly props: Readonly<CategoryProperties>) {}
+  constructor(public readonly props: CategoryProperties) {
+    this.description = props.description
+    this.created_at = props.created_at
+    this.is_active = props.is_active
+  }
 
-  // generate getters
   get name(): string {
     return this.props.name
   }
 
-  get description(): string | undefined {
+  get description(): string | null {
     return this.props.description
   }
 
-  get is_active(): boolean | undefined {
+  private set description(value: string) {
+    this.props.description = value ?? null
+  }
+
+  get is_active(): boolean {
     return this.props.is_active
   }
 
-  get created_at(): Date | undefined {
+  private set is_active(value: boolean) {
+    this.props.is_active = value ?? true
+  }
+
+  get created_at(): Date {
     return this.props.created_at
+  }
+
+  private set created_at(value: Date) {
+    this.props.created_at = value ?? new Date()
   }
 }
