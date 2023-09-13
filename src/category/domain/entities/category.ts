@@ -1,3 +1,5 @@
+import {randomUUID} from 'crypto'
+
 export type CategoryProperties = {
   name: string
   description?: string
@@ -6,10 +8,12 @@ export type CategoryProperties = {
 }
 
 export class Category {
-  constructor(public readonly props: CategoryProperties) {
+  public readonly id: string
+  constructor(public readonly props: CategoryProperties, id?: string) {
     this.description = props.description
     this.created_at = props.created_at
     this.is_active = props.is_active
+    this.id = id || randomUUID()
   }
 
   get name(): string {
