@@ -20,4 +20,8 @@ export class Category {
   get is_active(): boolean | undefined {
     return this.props.is_active
   }
+
+  get created_at(): Date | undefined {
+    return this.props.created_at
+  }
 }
