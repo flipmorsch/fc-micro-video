@@ -3,7 +3,7 @@ import {randomUUID} from 'crypto'
 
 export default class UniqueEntityId {
   constructor(public readonly id?: string) {
-    this.id = id ?? randomUUID()
+    this.id = id || randomUUID()
     this.validate()
   }
 
