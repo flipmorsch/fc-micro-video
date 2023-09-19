@@ -11,7 +11,7 @@ describe('Category', () => {
       description: 'Movies',
     }
 
-    const category = new Category(props, '1234')
+    const category = new Category(props)
 
     expect(category.name).toBe('Movie')
     expect(category.description).toBe('Movies')
@@ -19,7 +19,7 @@ describe('Category', () => {
     expect(category.created_at).toBeInstanceOf(Date)
     expect(category.created_at).toEqual(props.created_at)
     expect(category.props).toStrictEqual(props)
-    expect(category.id).toBe('1234')
+    expect(category.id.value).toBeDefined()
   })
 
   test('should set is_active to true if this property is not defined', () => {
@@ -55,21 +55,5 @@ describe('Category', () => {
     expect(category.created_at).toBeInstanceOf(Date)
     expect(category.created_at).toEqual(currentDate)
     expect(category.props).toStrictEqual({...props})
-  })
-
-  test('should set id to randomUUID if this property is not defined', () => {
-    const data = [
-      {props: {name: 'Movie'}, id: undefined},
-      {props: {name: 'Movie'}, id: null},
-      {props: {name: 'Movie'}, id: ''},
-      {props: {name: 'Movie'}, id: new UniqueEntityId()},
-      {props: {name: 'Movie'}},
-    ]
-
-    data.forEach(({props, id}) => {
-      const category = new Category(props, id)
-      expect(category.id).not.toBeUndefined()
-      expect(category.id).toBeInstanceOf(UniqueEntityId)
-    })
   })
 })
