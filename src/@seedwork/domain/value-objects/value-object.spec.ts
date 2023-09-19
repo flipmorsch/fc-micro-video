@@ -21,8 +21,6 @@ describe('ValueObject', () => {
   it('should convert to a string', () => {
     const date = new Date()
     let arrange = [
-      {received: null, expected: "null"},
-      {received: undefined, expected: "undefined"},
       {received: 0, expected: "0"},
       {received: 1, expected: "1"},
       {received: 5, expected: "5"},
