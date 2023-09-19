@@ -39,7 +39,6 @@ describe('Category', () => {
     }
 
     const category = new Category(props)
-    console.log(props)
 
     expect(category.description).toBeNull()
     expect(category.props).toStrictEqual({...props, description: null})
