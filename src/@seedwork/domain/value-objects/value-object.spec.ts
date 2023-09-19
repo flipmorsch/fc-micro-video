@@ -14,6 +14,6 @@ describe('ValueObject', () => {
 
     value = {prop1: 'value1'}
     valueObject = new StubValueObject(value)
-    expect(valueObject.value).toEqual(value)
+    expect(valueObject.value).toStrictEqual(value)
   })
 })
