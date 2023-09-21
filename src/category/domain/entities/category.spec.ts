@@ -19,7 +19,7 @@ describe('Category', () => {
     expect(category.created_at).toBeInstanceOf(Date)
     expect(category.created_at).toEqual(props.created_at)
     expect(category.props).toStrictEqual(props)
-    expect(category.id.value).toBeDefined()
+    expect(category.id).toBeDefined()
   })
 
   test('should set is_active to true if this property is not defined', () => {
@@ -55,5 +55,35 @@ describe('Category', () => {
     expect(category.created_at).toBeInstanceOf(Date)
     expect(category.created_at).toEqual(currentDate)
     expect(category.props).toStrictEqual({...props})
+  })
+
+  it('should activate a category', () => {
+    const props = {
+      name: 'Movie',
+      is_active: false,
+    }
+    const category = new Category(props)
+    category.activate()
+    expect(category.is_active).toBeTruthy()
+  })
+
+  it('should deactivate a category', () => {
+    const props = {
+      name: 'Movie',
+    }
+    const category = new Category(props)
+    category.deactivate()
+    expect(category.is_active).toBeFalsy()
+  })
+
+  it('should update a category', () => {
+    const props = {
+      name: 'Horror Movies',
+      description: 'Movies in horror genre',
+    }
+    const category = new Category(props)
+    category.update('Drama Movies', 'Movies in drama genre')
+    expect(category.name).toBe('Drama Movies')
+    expect(category.description).toBe('Movies in drama genre')
   })
 })
