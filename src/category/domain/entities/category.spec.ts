@@ -1,7 +1,11 @@
-import UniqueEntityId from '../../../@seedwork/domain/value-objects/unique-entity-id.vo'
 import {Category} from './category'
 
 describe('Category', () => {
+  let validateSpy: jest.SpyInstance
+  beforeEach(() => {
+    Category.validate = jest.fn()
+  })
+
   test('constructor of category', () => {
     const created_at = new Date()
     const props = {
@@ -20,6 +24,7 @@ describe('Category', () => {
     expect(category.created_at).toEqual(props.created_at)
     expect(category.props).toStrictEqual(props)
     expect(category.id).toBeDefined()
+    expect(Category.validate).toHaveBeenCalledTimes(1)
   })
 
   test('should set is_active to true if this property is not defined', () => {
@@ -85,5 +90,17 @@ describe('Category', () => {
     category.update('Drama Movies', 'Movies in drama genre')
     expect(category.name).toBe('Drama Movies')
     expect(category.description).toBe('Movies in drama genre')
+    expect(Category.validate).toHaveBeenCalledTimes(2)
+    expect(Category.validate).toHaveBeenCalledWith(props)
+  })
+
+  it('should call validate method when update a category', () => {
+    const props = {
+      name: 'Horror Movies',
+      description: 'Movies in horror genre',
+    }
+    const category = new Category(props)
+    category.update('Drama Movies', 'Movies in drama genre')
+    expect(Category.validate).toHaveBeenCalledTimes(2)
   })
 })
