@@ -14,7 +14,7 @@ export class ValidatorRules {
   }
 
   string(): Omit<this, 'string'> {
-    if (isEmpty(this.value) || typeof this.value !== 'string') {
+    if (!isEmpty(this.value) && typeof this.value !== 'string') {
       throw new ValidationError(`${this.property} must be a string`)
     }
     return this
