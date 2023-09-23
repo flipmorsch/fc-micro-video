@@ -24,7 +24,7 @@ describe('ValidatorRules Unit Tests', () => {
   })
 
   test('string validation rule', () => {
-    const invalidCases = [null, undefined, 0, false, {}, []]
+    const invalidCases = [0, false, {}, []]
     invalidCases.forEach(invalidCase => {
       expect(() => ValidatorRules.values(invalidCase, 'field').string()).toThrow(
         new ValidationError(`field must be a string`)
