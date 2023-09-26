@@ -13,7 +13,7 @@ describe('ValidatorRules Unit Tests', () => {
     const invalidCases = [null, undefined, '']
     invalidCases.forEach(invalidCase => {
       expect(() => ValidatorRules.values(invalidCase, 'field').required()).toThrow(
-        new ValidationError(`field is required`)
+        new ValidationError(`The field is required`)
       )
     })
 
@@ -27,7 +27,7 @@ describe('ValidatorRules Unit Tests', () => {
     const invalidCases = [0, false, {}, []]
     invalidCases.forEach(invalidCase => {
       expect(() => ValidatorRules.values(invalidCase, 'field').string()).toThrow(
-        new ValidationError(`field must be a string`)
+        new ValidationError(`The field must be a string`)
       )
     })
 
@@ -40,7 +40,9 @@ describe('ValidatorRules Unit Tests', () => {
       expect(() =>
         ValidatorRules.values(invalidCase, 'field').maxLength(invalidCase.length - 1)
       ).toThrow(
-        new ValidationError(`field must be less or equal than ${invalidCase.length - 1} characters`)
+        new ValidationError(
+          `The field must be less or equal than ${invalidCase.length - 1} characters`
+        )
       )
     })
 
@@ -56,7 +58,7 @@ describe('ValidatorRules Unit Tests', () => {
     const invalidCases = [5, 'true', 'false']
     invalidCases.forEach(invalidCase => {
       expect(() => ValidatorRules.values(invalidCase, 'field').boolean()).toThrow(
-        new ValidationError(`field must be a boolean`)
+        new ValidationError(`The field must be a boolean`)
       )
     })
 
