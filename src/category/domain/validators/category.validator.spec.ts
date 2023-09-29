@@ -33,34 +33,20 @@ describe('CategoryValidator Unit Tests', () => {
   })
 
   test('valid cases for fields', () => {
-    let isValid = validator.validate({name: 'any'})
-    expect(isValid).toBeTruthy()
-    expect(validator.errors).toBeNull()
-    expect(validator.validateData).toStrictEqual(new CategoryRules({name: 'any'}))
-    
-    isValid = validator.validate({name: 'any', description: 'any'})
-    expect(isValid).toBeTruthy()
-    expect(validator.errors).toBeNull()
-    expect(validator.validateData).toStrictEqual(new CategoryRules({name: 'any', description: 'any'}))
-    
-    isValid = validator.validate({name: 'any', description: null})
-    expect(isValid).toBeTruthy()
-    expect(validator.errors).toBeNull()
-    expect(validator.validateData).toStrictEqual(new CategoryRules({name: 'any', description: null}))
+    const arrange = [
+      {name: 'any'},
+      {name: 'any', description: 'any'},
+      {name: 'any', description: null},
+      {name: 'any', description: undefined},
+      {name: 'any', is_active: true},
+      {name: 'any', is_active: false},
+    ]
 
-    isValid = validator.validate({name: 'any', description: undefined})
-    expect(isValid).toBeTruthy()
-    expect(validator.errors).toBeNull()
-    expect(validator.validateData).toStrictEqual(new CategoryRules({name: 'any', description: undefined}))
-
-    isValid = validator.validate({name: 'any', is_active: true})
-    expect(isValid).toBeTruthy()
-    expect(validator.errors).toBeNull()
-    expect(validator.validateData).toStrictEqual(new CategoryRules({name: 'any', is_active: true}))
-    
-    isValid = validator.validate({name: 'any', is_active: false})
-    expect(isValid).toBeTruthy()
-    expect(validator.errors).toBeNull()
-    expect(validator.validateData).toStrictEqual(new CategoryRules({name: 'any', is_active: false}))
+    arrange.forEach(data => {
+      const isValid = validator.validate(data)
+      expect(isValid).toBeTruthy()
+      expect(validator.errors).toBeNull()
+      expect(validator.validateData).toStrictEqual(new CategoryRules(data))
+    })
   })
 })
