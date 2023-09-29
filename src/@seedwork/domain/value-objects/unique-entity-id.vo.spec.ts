@@ -1,4 +1,4 @@
-import InvalidUuidError from '../../errors/invalid-uuid.error'
+import InvalidUuidError from '../errors/invalid-uuid.error'
 import UniqueEntityID from './unique-entity-id.vo'
 
 const spyValidateMethod = jest.spyOn(UniqueEntityID.prototype as any, 'validate')

@@ -1,5 +1,5 @@
-import {isEmpty} from '../../@seedwork/domain/utils/validation.utils'
-import {ValidationError} from '../../@seedwork/errors/validation-error'
+import {isEmpty} from '../utils/validation.utils'
+import {ValidationError} from '../errors/validation-error'
 
 export class ValidatorRules {
   private constructor(private value: any, private property: string) {}
