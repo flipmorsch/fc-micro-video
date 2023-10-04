@@ -37,34 +37,60 @@ class SearchParams {
     return this._page
   }
 
-  private set page(value: number) {}
+  private set page(value: number) {
+    let _page = +value
+    if (Number.isNaN(_page) || _page <= 0 || parseInt(_page as any) !== _page) {
+      _page = 1
+    }
+    this._page = _page
+  }
 
   get per_page() {
     return this._per_page
   }
 
-  private set per_page(value: number | null) {}
+  private set per_page(value: number | null) {
+    let _per_page = +value
+    if (Number.isNaN(_per_page) || _per_page <= 0 || parseInt(_per_page as any) !== _per_page) {
+      _per_page = this._per_page
+    }
+    this._per_page = _per_page
+  }
 
   get sort() {
     return this._sort
   }
 
-  private set sort(value: string | null) {}
+  private set sort(value: string | null) {
+    this._sort = value === null || value === undefined || value === '' ? null : `${value}`
+  }
 
   get sort_dir() {
     return this._sort_dir
   }
 
-  private set sort_dir(value: string | null) {}
+  private set sort_dir(value: string | null) {
+    if (!this.sort) {
+      this.sort_dir = null
+      return
+    }
+    const dir = `${value}`.toLowerCase()
+    this._sort_dir = dir !== 'asc' && dir !== 'desc' ? 'asc' : dir
+  }
 
   get filter() {
     return this._filter
   }
 
-  private set filter(value: string) {}
+  private set filter(value: string) {
+    this._filter = value === null || value === undefined || value === '' ? null : `${value}`
+  }
 }
 
-export interface SearchableRepositoryInterface<E extends Entity, SearchInput, SearchOutput>
-  extends RepositoryInterface<E> {
+export interface SearchableRepositoryInterface<
+  E extends Entity,
+  SearchOutput,
+  SearchInput = SearchParams
+> extends RepositoryInterface<E> {
   search(props: SearchInput): Promise<SearchOutput>
 }
