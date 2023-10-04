@@ -1,11 +1,9 @@
 import {Entity} from '../entity/entity'
 import {NotFoundError} from '../errors/not-found.error'
 import UniqueEntityId from '../value-objects/unique-entity-id.vo'
-import {RepositoryInterface} from './repository-contracts'
+import {RepositoryInterface, SearchableRepositoryInterface} from './repository-contracts'
 
-export default abstract class InMemoryRepository<T extends Entity>
-  implements RepositoryInterface<T>
-{
+export abstract class InMemoryRepository<T extends Entity> implements RepositoryInterface<T> {
   items: T[] = []
   async insert(entity: T): Promise<void> {
     this.items.push(entity)
@@ -33,5 +31,13 @@ export default abstract class InMemoryRepository<T extends Entity>
     const item = this.items.find(item => item.id === id)
     if (!item) throw new NotFoundError(`Entity not found using ID ${id}`)
     return item
+  }
+}
+
+export abstract class InMemorySearchableRepository<E extends Entity>
+  extends InMemoryRepository<E>
+  implements SearchableRepositoryInterface<E, any, any> {
+  search(props: any): Promise<any> {
+    throw new Error('Method not implemented.')
   }
 }
