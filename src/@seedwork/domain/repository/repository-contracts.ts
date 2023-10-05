@@ -19,13 +19,13 @@ export type SearchProps<Filter = string> = {
   filter?: Filter
 }
 
-class SearchParams {
+export class SearchParams {
   protected _page: number = 1
   protected _per_page: number = 15
   protected _sort: string | null
   protected _sort_dir: string | null
   protected _filter: string | null
-  constructor(props: SearchProps) {
+  constructor(props: SearchProps = {}) {
     this.page = props.page
     this.per_page = props.per_page
     this.sort = props.sort
@@ -50,7 +50,7 @@ class SearchParams {
   }
 
   private set per_page(value: number | null) {
-    let _per_page = +value
+    let _per_page = value === (true as any) ? this._per_page : +value
     if (Number.isNaN(_per_page) || _per_page <= 0 || parseInt(_per_page as any) !== _per_page) {
       _per_page = this._per_page
     }
@@ -71,7 +71,7 @@ class SearchParams {
 
   private set sort_dir(value: string | null) {
     if (!this.sort) {
-      this.sort_dir = null
+      this._sort_dir = null
       return
     }
     const dir = `${value}`.toLowerCase()
