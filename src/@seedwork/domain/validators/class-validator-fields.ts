@@ -5,7 +5,7 @@ export abstract class ClassValidatorFields<ValidatedProps>
   implements ValidatorFieldsInterface<ValidatedProps>
 {
   errors: FieldsErrors = null
-  validateData: ValidatedProps = null
+  validatedData: ValidatedProps = null
   validate(data: any): boolean {
     const errors = validateSync(data)
     if (errors.length) {

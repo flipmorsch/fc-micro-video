@@ -7,7 +7,7 @@ describe('ClassValidatorFields Unit Tests', () => {
   it('should initialize errors and validateData with null', () => {
     const validator = new StubClassValidatorFields()
     expect(validator.errors).toBeNull()
-    expect(validator.validateData).toBeNull()
+    expect(validator.validatedData).toBeNull()
   })
 
   it('should validate with errors', () => {
@@ -23,7 +23,7 @@ describe('ClassValidatorFields Unit Tests', () => {
     const validator = new StubClassValidatorFields()
     expect(validator.validate(null)).toBeFalsy()
     expect(spyValidateSync).toHaveBeenCalled()
-    expect(validator.validateData).toBeNull()
+    expect(validator.validatedData).toBeNull()
     expect(validator.errors).toStrictEqual({name: ['some error']})
   })
 
