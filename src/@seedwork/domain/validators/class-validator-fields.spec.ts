@@ -33,7 +33,7 @@ describe('ClassValidatorFields Unit Tests', () => {
     const validator = new StubClassValidatorFields()
     expect(validator.validate({name: 'value'})).toBeTruthy()
     expect(spyValidateSync).toHaveBeenCalled()
-    expect(validator.validateData).toStrictEqual({name: 'value'})
+    expect(validator.validatedData).toStrictEqual({name: 'value'})
     expect(validator.errors).toBeNull()
   })
 })

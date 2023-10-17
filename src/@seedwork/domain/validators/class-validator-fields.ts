@@ -15,7 +15,7 @@ export abstract class ClassValidatorFields<ValidatedProps>
         this.errors[field] = Object.values(error.constraints)
       }
     } else {
-      this.validateData = data
+      this.validatedData = data
     }
 
     return !errors.length

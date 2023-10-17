@@ -50,7 +50,7 @@ describe('CategoryValidator Unit Tests', () => {
       const isValid = validator.validate(data)
       expect(isValid).toBeTruthy()
       expect(validator.errors).toBeNull()
-      expect(validator.validateData).toStrictEqual(new CategoryRules(data))
+      expect(validator.validatedData).toStrictEqual(new CategoryRules(data))
     })
   })
 })

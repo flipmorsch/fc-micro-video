@@ -43,6 +43,6 @@ describe('ClassValidatorFields Integration Tests', () => {
     const validator = new StubClassValidatorFields()
     expect(validator.validate({name: 'any', price: 1})).toBeTruthy()
     expect(validator.errors).toBeNull()
-    expect(validator.validateData).toStrictEqual(new StubRules({name: 'any', price: 1}))
+    expect(validator.validatedData).toStrictEqual(new StubRules({name: 'any', price: 1}))
   })
 })
