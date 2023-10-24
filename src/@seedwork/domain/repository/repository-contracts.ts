@@ -57,7 +57,7 @@ export class SearchParams {
     this._per_page = _per_page
   }
 
-  get sort() {
+  get sort(): string | null {
     return this._sort
   }
 
@@ -65,7 +65,7 @@ export class SearchParams {
     this._sort = value === null || value === undefined || value === '' ? null : `${value}`
   }
 
-  get sort_dir() {
+  get sort_dir(): string | null {
     return this._sort_dir
   }
 
@@ -78,7 +78,7 @@ export class SearchParams {
     this._sort_dir = dir !== 'asc' && dir !== 'desc' ? 'asc' : dir
   }
 
-  get filter() {
+  get filter(): string | null {
     return this._filter
   }
 
@@ -120,20 +120,21 @@ export class SearchResult<E extends Entity, Filter = string> {
 
   toJSON() {
     return {
-    items: this.items,
-    total: this.total,
-    current_page: this.current_page,
-    per_page: this.per_page,
-    last_page: this.last_page,
-    sort: this.sort,
-    sort_dir: this.sort_dir,
-    filter: this.filter
+      items: this.items,
+      total: this.total,
+      current_page: this.current_page,
+      per_page: this.per_page,
+      last_page: this.last_page,
+      sort: this.sort,
+      sort_dir: this.sort_dir,
+      filter: this.filter,
     }
   }
 }
 
 export interface SearchableRepositoryInterface<
-  E extends Entity, Filter = string,
+  E extends Entity,
+  Filter = string,
   SearchOutput = SearchResult<E, Filter>,
   SearchInput = SearchParams
 > extends RepositoryInterface<E> {
