@@ -8,7 +8,9 @@ import {
   SearchableRepositoryInterface,
 } from './repository-contracts'
 
-export abstract class InMemoryRepository<T extends Entity> implements RepositoryInterface<T> {
+export abstract class InMemoryRepository<T extends Entity>
+  implements RepositoryInterface<T>
+{
   items: T[] = []
   async insert(entity: T): Promise<void> {
     this.items.push(entity)
@@ -46,8 +48,16 @@ export abstract class InMemorySearchableRepository<E extends Entity>
   sortableFields: string[] = []
   async search(props: SearchParams): Promise<SearchResult<E>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter)
-    const itemsSorted = await this.applySort(itemsFiltered, props.sort, props.sort_dir)
-    const itemsPaginated = await this.applyPaginate(itemsSorted, props.page, props.per_page)
+    const itemsSorted = await this.applySort(
+      itemsFiltered,
+      props.sort,
+      props.sort_dir
+    )
+    const itemsPaginated = await this.applyPaginate(
+      itemsSorted,
+      props.page,
+      props.per_page
+    )
 
     return new SearchResult({
       items: itemsPaginated,
@@ -60,12 +70,15 @@ export abstract class InMemorySearchableRepository<E extends Entity>
     })
   }
 
-  protected abstract applyFilter(items: E[], filter: string | null): Promise<E[]>
+  protected abstract applyFilter(
+    items: E[],
+    filter: SearchParams['filter']
+  ): Promise<E[]>
 
   protected async applySort(
     items: E[],
-    sort: string | null,
-    sort_dir: string | null
+    sort: SearchParams['sort'],
+    sort_dir: SearchParams['sort_dir']
   ): Promise<E[]> {
     if (!sort || !this.sortableFields.includes(sort)) return items
 
@@ -80,7 +93,11 @@ export abstract class InMemorySearchableRepository<E extends Entity>
     })
   }
 
-  protected async applyPaginate(items: E[], page: number, per_page: number): Promise<E[]> {
+  protected async applyPaginate(
+    items: E[],
+    page: SearchParams['page'],
+    per_page: SearchParams['per_page']
+  ): Promise<E[]> {
     const start = (page - 1) * per_page
     const end = start + per_page
     return items.slice(start, end)

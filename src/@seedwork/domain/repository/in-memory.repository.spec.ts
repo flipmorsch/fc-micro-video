@@ -1,7 +1,7 @@
 import {Entity} from '../entity/entity'
 import {NotFoundError} from '../errors/not-found.error'
 import UniqueEntityId from '../value-objects/unique-entity-id.vo'
-import {InMemoryRepository} from './in-memory.repository'
+import {InMemoryRepository, InMemorySearchableRepository} from './in-memory.repository'
 
 type StubEntityProps = {
   name: string
@@ -10,6 +10,19 @@ type StubEntityProps = {
 
 class StubEntity extends Entity<StubEntityProps> {}
 class StubInMemoryRepository extends InMemoryRepository<StubEntity> {}
+class StubInMemorySearchableRepository extends InMemorySearchableRepository<StubEntity> {
+  sortableFields: string[] = ['name']
+  protected async applyFilter(items: StubEntity[], filter: string): Promise<StubEntity[]> {
+    if (!filter) return items
+
+    return items.filter(item => {
+      return (
+        item.props.name.toLowerCase().includes(filter.toLowerCase()) ||
+        item.props.price.toString() === filter
+      )
+    })
+  }
+}
 
 describe('InMemoryRepository Unit Tests', () => {
   let repository: StubInMemoryRepository
@@ -97,4 +110,18 @@ describe('InMemoryRepository Unit Tests', () => {
     await repository.delete(entity.uniqueEntityId)
     expect(repository.items).toHaveLength(0)
   })
+})
+
+describe('InMemorySearchableRepository Unit Tests', () => {
+  let repository: StubInMemorySearchableRepository
+  beforeEach(() => {
+    repository = new StubInMemorySearchableRepository()
+  })
+  describe('applyFilter method', () => {})
+
+  describe('applyFilter method', () => {})
+
+  describe('applyFilter method', () => {})
+
+  describe('search method', () => {})
 })
