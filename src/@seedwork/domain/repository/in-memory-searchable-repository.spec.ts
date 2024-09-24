@@ -93,4 +93,30 @@ describe('InMemorySearchableRepository Unit Tests', () => {
       expect(result).toStrictEqual([items[1], items[0]])
     })
   })
+
+  describe('applyPaginate method', () => {
+    beforeEach(() => {
+      repository = new StubInMemorySearchableRepository()
+    })
+    test('should paginate items', async () => {
+      const items = [
+        new StubEntity({name: 'a', price: 1}),
+        new StubEntity({name: 'b', price: 1}),
+        new StubEntity({name: 'c', price: 1}),
+        new StubEntity({name: 'd', price: 1}),
+        new StubEntity({name: 'e', price: 1}),
+      ]
+      let result = await repository['applyPaginate'](items, 1, 2)
+      expect(result).toStrictEqual([items[0], items[1]])
+
+      result = await repository['applyPaginate'](items, 2, 2)
+      expect(result).toStrictEqual([items[2], items[3]])
+
+      result = await repository['applyPaginate'](items, 3, 2)
+      expect(result).toStrictEqual([items[4]])
+
+      result = await repository['applyPaginate'](items, 4, 2)
+      expect(result).toStrictEqual([])
+    })
+  })
 })
