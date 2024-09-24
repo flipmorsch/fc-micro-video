@@ -1,5 +1,6 @@
 import {Entity} from '../entity/entity'
 import {InMemorySearchableRepository} from './in-memory.repository'
+import {SearchParams, SearchResult} from './repository-contracts'
 
 type StubEntityProps = {
   name: string
@@ -117,6 +118,237 @@ describe('InMemorySearchableRepository Unit Tests', () => {
 
       result = await repository['applyPaginate'](items, 4, 2)
       expect(result).toStrictEqual([])
+    })
+  })
+
+  describe('search method', () => {
+    test('should apply only paginate when other params are null', async () => {
+      const entity = new StubEntity({name: 'a', price: 1})
+      const items = Array(16).fill(entity)
+      repository.items = items
+      const result = await repository.search(new SearchParams())
+      expect(result).toStrictEqual(
+        new SearchResult({
+          items: Array(15).fill(entity),
+          total: 16,
+          current_page: 1,
+          per_page: 15,
+          sort: null,
+          sort_dir: null,
+          filter: null,
+        })
+      )
+    })
+
+    test('should apply paginate and filter', async () => {
+      const items = [
+        new StubEntity({name: 'test', price: 100}),
+        new StubEntity({name: 'a', price: 200}),
+        new StubEntity({name: 'TeSt', price: 200}),
+        new StubEntity({name: 'TEST', price: 200}),
+      ]
+      repository.items = items
+      let result = await repository.search(
+        new SearchParams({page: 1, per_page: 2, filter: 'TEST'})
+      )
+      expect(result).toStrictEqual(
+        new SearchResult({
+          items: [items[0], items[2]],
+          total: 3,
+          current_page: 1,
+          per_page: 2,
+          sort: null,
+          sort_dir: null,
+          filter: 'TEST',
+        })
+      )
+
+      result = await repository.search(
+        new SearchParams({page: 2, per_page: 2, filter: 'TEST'})
+      )
+      expect(result).toStrictEqual(
+        new SearchResult({
+          items: [items[3]],
+          total: 3,
+          current_page: 2,
+          per_page: 2,
+          sort: null,
+          sort_dir: null,
+          filter: 'TEST',
+        })
+      )
+    })
+
+    test('should apply paginate and sort', async () => {
+      const items = [
+        new StubEntity({name: 'b', price: 100}),
+        new StubEntity({name: 'a', price: 200}),
+        new StubEntity({name: 'd', price: 100}),
+        new StubEntity({name: 'e', price: 200}),
+        new StubEntity({name: 'c', price: 200}),
+      ]
+      repository.items = items
+
+      const arrange = [
+        {
+          params: new SearchParams({page: 1, per_page: 2, sort: 'name'}),
+          expected: new SearchResult({
+            items: [items[1], items[0]],
+            total: 5,
+            current_page: 1,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'asc',
+            filter: null,
+          }),
+        },
+        {
+          params: new SearchParams({page: 2, per_page: 2, sort: 'name'}),
+          expected: new SearchResult({
+            items: [items[4], items[2]],
+            total: 5,
+            current_page: 2,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'asc',
+            filter: null,
+          }),
+        },
+        {
+          params: new SearchParams({page: 3, per_page: 2, sort: 'name'}),
+          expected: new SearchResult({
+            items: [items[3]],
+            total: 5,
+            current_page: 3,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'asc',
+            filter: null,
+          }),
+        },
+        {
+          params: new SearchParams({sort: 'name', sort_dir: 'desc'}),
+          expected: new SearchResult({
+            items: [items[3], items[2], items[4], items[0], items[1]],
+            total: 5,
+            current_page: 1,
+            per_page: 15,
+            sort: 'name',
+            sort_dir: 'desc',
+            filter: null,
+          }),
+        },
+        {
+          params: new SearchParams({
+            page: 1,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'desc',
+          }),
+          expected: new SearchResult({
+            items: [items[3], items[2]],
+            total: 5,
+            current_page: 1,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'desc',
+            filter: null,
+          }),
+        },
+        {
+          params: new SearchParams({
+            page: 2,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'desc',
+          }),
+          expected: new SearchResult({
+            items: [items[4], items[0]],
+            total: 5,
+            current_page: 2,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'desc',
+            filter: null,
+          }),
+        },
+      ]
+
+      for (const item of arrange) {
+        let result = await repository.search(item.params)
+        expect(result).toStrictEqual(item.expected)
+      }
+    })
+
+    test('should search using filter, paginate and sort', async () => {
+      const items = [
+        new StubEntity({name: 'test', price: 100}),
+        new StubEntity({name: 'a', price: 200}),
+        new StubEntity({name: 'TEST', price: 100}),
+        new StubEntity({name: 'e', price: 200}),
+        new StubEntity({name: 'TeSt', price: 200}),
+      ]
+      repository.items = items
+
+      const arrange = [
+        {
+          params: new SearchParams({
+            page: 1,
+            per_page: 2,
+            sort: 'name',
+            filter: 'TEST',
+          }),
+          expected: new SearchResult({
+            items: [items[2], items[4]],
+            total: 3,
+            current_page: 1,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'asc',
+            filter: 'TEST',
+          }),
+        },
+        {
+          params: new SearchParams({
+            page: 2,
+            per_page: 2,
+            sort: 'name',
+            filter: 'TEST',
+          }),
+          expected: new SearchResult({
+            items: [items[0]],
+            total: 3,
+            current_page: 2,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'asc',
+            filter: 'TEST',
+          }),
+        },
+        {
+          params: new SearchParams({
+            page: 2,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'desc',
+            filter: 'TEST',
+          }),
+          expected: new SearchResult({
+            items: [items[2]],
+            total: 3,
+            current_page: 2,
+            per_page: 2,
+            sort: 'name',
+            sort_dir: 'desc',
+            filter: 'TEST',
+          }),
+        },
+      ]
+
+      for (const item of arrange) {
+        let result = await repository.search(item.params)
+        expect(result).toStrictEqual(item.expected)
+      }
     })
   })
 })
