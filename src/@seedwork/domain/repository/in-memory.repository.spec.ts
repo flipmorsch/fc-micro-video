@@ -111,17 +111,3 @@ describe('InMemoryRepository Unit Tests', () => {
     expect(repository.items).toHaveLength(0)
   })
 })
-
-describe('InMemorySearchableRepository Unit Tests', () => {
-  let repository: StubInMemorySearchableRepository
-  beforeEach(() => {
-    repository = new StubInMemorySearchableRepository()
-  })
-  describe('applyFilter method', () => {})
-
-  describe('applyFilter method', () => {})
-
-  describe('applyFilter method', () => {})
-
-  describe('search method', () => {})
-})
