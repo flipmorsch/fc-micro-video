@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "tsc": "tsc",
-    "clean:tsc": "rm tsconfig.tsbuildinfo",
+    "tsc:clean": "rm tsconfig.tsbuildinfo",
+    "tsc:check": "npm run tsc -- --noEmit",
     "test": "jest",
     "test:watch": "npm test -- --watch"
   },
