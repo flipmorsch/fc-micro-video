@@ -1,4 +1,4 @@
-import {Category} from '@core/src/category/domain/entities/category'
+import {Category} from '#category/domain'
 
 export type CategoryOutput = {
   id: string

@@ -1,7 +1,7 @@
 import {InMemorySearchableRepository} from '../../../@seedwork/domain/repository/in-memory.repository'
-import {SortDirection} from '@core/src/@seedwork/domain/repository/repository-contracts'
+import {SortDirection} from '#seedwork/domain'
 import {Category} from '../../domain/entities/category'
-import CategoryRepository from '@core/src/category/domain/repository/category.repository'
+import CategoryRepository from '#category/domain/repository/category.repository'
 
 export class CategoryInMemoryRepository
   extends InMemorySearchableRepository<Category>

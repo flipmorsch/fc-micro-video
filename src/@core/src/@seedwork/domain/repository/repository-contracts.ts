@@ -1,4 +1,4 @@
-import {Entity} from '../entity/entity'
+import {Entity} from '#seedwork/domain'
 import UniqueEntityId from '../value-objects/unique-entity-id.vo'
 
 export interface RepositoryInterface<T extends Entity> {
@@ -144,7 +144,7 @@ export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
   SearchOutput = SearchResult<E, Filter>,
-  SearchInput = SearchParams
+  SearchInput = SearchParams,
 > extends RepositoryInterface<E> {
   sortableFields: string[]
   search(props: SearchInput): Promise<SearchOutput>
