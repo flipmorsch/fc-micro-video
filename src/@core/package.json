@@ -40,6 +40,8 @@
     "tsc": "tsc",
     "tsc:clean": "rm tsconfig.tsbuildinfo",
     "tsc:check": "npm run tsc -- --noEmit",
+    "build": "tsc -b ./tsconfig.json",
+    "build:w": "tsc -b ./tsconfig.json -w",
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "cti": "cti",
