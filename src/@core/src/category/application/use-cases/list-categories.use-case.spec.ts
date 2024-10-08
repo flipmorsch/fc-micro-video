@@ -1,15 +1,15 @@
 import {CategoryInMemoryRepository} from '../../infra/repository/category-in-memory.repository'
 import {Category} from '../../domain/entities/category'
-import ListCategoriesUseCase from './list-categories.use-case'
+import {ListCategoriesUseCase} from './list-categories.use-case'
 import CategoryRepository from '../../domain/repository/category.repository'
 
 describe('ListCategoriesUseCase', () => {
-  let useCase: ListCategoriesUseCase
+  let useCase: ListCategoriesUseCase.UseCase
   let repository: CategoryInMemoryRepository
 
   beforeEach(() => {
     repository = new CategoryInMemoryRepository()
-    useCase = new ListCategoriesUseCase(repository)
+    useCase = new ListCategoriesUseCase.UseCase(repository)
   })
 
   test('toOutput method', () => {
@@ -96,7 +96,12 @@ describe('ListCategoriesUseCase', () => {
       }),
     ]
     repository.items = items
-    let output = await useCase.execute({page: 1, per_page: 2, sort: 'name', filter: 'a'})
+    let output = await useCase.execute({
+      page: 1,
+      per_page: 2,
+      sort: 'name',
+      filter: 'a',
+    })
     expect(output).toStrictEqual({
       items: [items[1].toJSON(), items[2].toJSON()],
       current_page: 1,
@@ -105,22 +110,33 @@ describe('ListCategoriesUseCase', () => {
       total: 3,
     })
 
-    output = await useCase.execute({page: 2, per_page: 2, sort: 'name', filter: 'a'})
+    output = await useCase.execute({
+      page: 2,
+      per_page: 2,
+      sort: 'name',
+      filter: 'a',
+    })
     expect(output).toStrictEqual({
       items: [items[0].toJSON()],
-       current_page: 2,
-       last_page: 2,
-       per_page: 2,
-       total: 3,
+      current_page: 2,
+      last_page: 2,
+      per_page: 2,
+      total: 3,
     })
 
-    output = await useCase.execute({page: 1, per_page: 3, sort: 'name', sort_dir: 'desc', filter: 'a'})
+    output = await useCase.execute({
+      page: 1,
+      per_page: 3,
+      sort: 'name',
+      sort_dir: 'desc',
+      filter: 'a',
+    })
     expect(output).toStrictEqual({
       items: [items[0].toJSON(), items[2].toJSON(), items[1].toJSON()],
-       current_page: 1,
-       last_page: 1,
-       per_page: 3,
-       total: 3,
+      current_page: 1,
+      last_page: 1,
+      per_page: 3,
+      total: 3,
     })
   })
 })

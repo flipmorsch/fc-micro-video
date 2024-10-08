@@ -1,15 +1,15 @@
-import UpdateCategoryUseCase from './update-category.use-case'
+import {UpdateCategoryUseCase} from './update-category.use-case'
 import {CategoryInMemoryRepository} from '../../infra/repository/category-in-memory.repository'
 import {NotFoundError} from '../../../@seedwork/domain/errors/not-found.error'
 import {Category} from '../../domain/entities/category'
 
 describe('UpdateCategoryUseCase', () => {
-  let useCase: UpdateCategoryUseCase
+  let useCase: UpdateCategoryUseCase.UseCase
   let repository: CategoryInMemoryRepository
 
   beforeEach(() => {
     repository = new CategoryInMemoryRepository()
-    useCase = new UpdateCategoryUseCase(repository)
+    useCase = new UpdateCategoryUseCase.UseCase(repository)
   })
 
   it('should throw error when category not found', async () => {
@@ -22,7 +22,7 @@ describe('UpdateCategoryUseCase', () => {
 
   it('should update a category', async () => {
     const spyUpdate = jest.spyOn(repository, 'update')
-    
+
     const entity = new Category({
       name: 'Movie',
       description: 'some description',
@@ -50,7 +50,7 @@ describe('UpdateCategoryUseCase', () => {
     output = await useCase.execute({
       id: entity.id,
       name: 'test',
-      is_active: false
+      is_active: false,
     })
     expect(output).toStrictEqual({
       id: entity.id,
