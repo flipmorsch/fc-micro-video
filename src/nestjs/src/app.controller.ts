@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Category } from '@fc/micro-video/category/domain';
+import { GetCategoryUseCase } from '@fc/micro-video/category/application'
 
 @Controller()
 export class AppController {
@@ -8,7 +8,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    console.log(Category);
+    console.log(GetCategoryUseCase.UseCase)
     return this.appService.getHello();
   }
 }
