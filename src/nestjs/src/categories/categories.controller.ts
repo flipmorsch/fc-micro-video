@@ -3,51 +3,51 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Inject,
+  Put,
+  HttpCode,
+  HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import {
-  CreateCategoryUseCase,
-  ListCategoriesUseCase,
-} from '@fc/micro-video/category/application';
+import { SearchCategoryDTO } from './dto/search-category.dto';
 
 @Controller('categories')
 export class CategoriesController {
-  constructor(
-    private readonly categoriesService: CategoriesService,
-    private readonly createCategoryUseCase: CreateCategoryUseCase.UseCase,
-    private readonly listCategoriesUseCase: ListCategoriesUseCase.UseCase,
-  ) {}
+  @Inject(CategoriesService)
+  private categoriesService: CategoriesService;
 
+  @HttpCode(HttpStatus.CREATED)
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto) {
-    return await this.createCategoryUseCase.execute({ name: 'hahahaha' });
+    return await this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
-  async findAll() {
-    return await this.listCategoriesUseCase.execute({});
+  async findAll(@Query() searchParams: SearchCategoryDTO) {
+    return await this.categoriesService.search(searchParams);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+    return this.categoriesService.findOne(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.categoriesService.update(+id, updateCategoryDto);
+    return this.categoriesService.update(id, updateCategoryDto);
   }
 
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoriesService.remove(+id);
+  delete(@Param('id') id: string) {
+    this.categoriesService.delete(id);
   }
 }

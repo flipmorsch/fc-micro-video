@@ -1,5 +1,24 @@
 ###
 POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+  "name": "Categoria"
+}
 
 ###
 GET http://localhost:3000/categories
+
+###
+PUT http://localhost:3000/categories/49661c35-b057-4867-a577-b43db570563f
+Content-Type: application/json
+
+{
+  "name": "Categoria Mudou"
+}
+
+###
+GET http://localhost:3000/categories/49661c35-b057-4867-a577-b43db570563f
+
+###
+DELETE http://localhost:3000/categories/49661c35-b057-4867-a577-b43db570563f

@@ -1,4 +1,4 @@
-import {Entity} from '#seedwork/domain'
+import {Entity} from '../../domain'
 import UniqueEntityId from '../value-objects/unique-entity-id.vo'
 
 export interface RepositoryInterface<T extends Entity> {
