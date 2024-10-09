@@ -3,7 +3,11 @@
   "compilerOptions": {
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "#seedwork/*": ["../@core/src/@seedwork/*"],
+      "#category/*": ["../@core/src/category/*"]
+    }
   },
   "include": ["./src"]
 }
