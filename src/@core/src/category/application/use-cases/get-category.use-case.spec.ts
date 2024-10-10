@@ -1,5 +1,5 @@
 import {GetCategoryUseCase} from './get-category.use-case'
-import {CategoryInMemoryRepository} from '../../infra/repository/category-in-memory.repository'
+import {CategoryInMemoryRepository} from '../../infra/db/in-memory/category-in-memory.repository'
 import {NotFoundError} from '../../../@seedwork/domain/errors/not-found.error'
 import {Category} from '../../domain/entities/category'
 
@@ -9,7 +9,7 @@ describe('GetCategoryUseCase', () => {
 
   beforeEach(() => {
     repository = new CategoryInMemoryRepository()
-    useCase = new GetCategoryUseCase.UseCase(repository)
+    useCase = new GetCategoryUseCase.UseCase(repository as any)
   })
 
   it('should throw error when category not found', async () => {
@@ -21,7 +21,7 @@ describe('GetCategoryUseCase', () => {
   it('should return a category', async () => {
     const spyFindById = jest.spyOn(repository, 'findById')
 
-    const items = [
+    const items: Category[] = [
       new Category({
         name: 'Teste',
         description: 'Teste description',
@@ -29,7 +29,7 @@ describe('GetCategoryUseCase', () => {
         created_at: new Date(),
       }),
     ]
-    repository.items = items
+    repository.items = items as any
     let output = await useCase.execute({
       id: items[0].id,
     })

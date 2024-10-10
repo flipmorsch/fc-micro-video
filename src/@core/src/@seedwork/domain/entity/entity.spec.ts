@@ -1,4 +1,4 @@
-import UniqueEntityId from '../value-objects/unique-entity-id.vo'
+import {UniqueEntityId} from '../value-objects/unique-entity-id.vo'
 import {Entity} from './entity'
 
 class StubEntity extends Entity<{prop1: string; prop2: number}> {}

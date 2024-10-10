@@ -1,4 +1,4 @@
-import {CategoryInMemoryRepository} from '../../infra/repository/category-in-memory.repository'
+import {CategoryInMemoryRepository} from '../../infra/db/in-memory/category-in-memory.repository'
 import {Category} from '../../domain/entities/category'
 import {ListCategoriesUseCase} from './list-categories.use-case'
 import CategoryRepository from '../../domain/repository/category.repository'
@@ -9,7 +9,7 @@ describe('ListCategoriesUseCase', () => {
 
   beforeEach(() => {
     repository = new CategoryInMemoryRepository()
-    useCase = new ListCategoriesUseCase.UseCase(repository)
+    useCase = new ListCategoriesUseCase.UseCase(repository as any)
   })
 
   test('toOutput method', () => {
@@ -20,7 +20,7 @@ describe('ListCategoriesUseCase', () => {
       per_page: 2,
       sort: null,
       sort_dir: null,
-      filter: null,
+      filter: null as any,
     })
     let output = useCase['toOutput'](searchResult)
     expect(output).toStrictEqual({
@@ -46,7 +46,7 @@ describe('ListCategoriesUseCase', () => {
       per_page: 2,
       sort: null,
       sort_dir: null,
-      filter: null,
+      filter: null as any,
     })
     output = useCase['toOutput'](searchResult)
     expect(output).toStrictEqual({
@@ -66,7 +66,7 @@ describe('ListCategoriesUseCase', () => {
         created_at: new Date(new Date().getTime() + 100),
       }),
     ]
-    repository.items = items
+    repository.items = items as any
     const output = await useCase.execute({})
     expect(output).toStrictEqual({
       items: [...items].reverse().map(item => item.toJSON()),
@@ -95,7 +95,7 @@ describe('ListCategoriesUseCase', () => {
         name: 'c',
       }),
     ]
-    repository.items = items
+    repository.items = items as any
     let output = await useCase.execute({
       page: 1,
       per_page: 2,

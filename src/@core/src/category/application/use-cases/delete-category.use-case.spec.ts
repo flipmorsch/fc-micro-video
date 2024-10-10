@@ -1,6 +1,6 @@
 import {NotFoundError} from '../../../@seedwork/domain/errors/not-found.error'
 import {Category} from '../../domain/entities/category'
-import {CategoryInMemoryRepository} from '../../infra/repository/category-in-memory.repository'
+import {CategoryInMemoryRepository} from '../../infra/db/in-memory/category-in-memory.repository'
 import {DeleteCategoryUseCase} from './delete-category.use-case'
 
 describe('DeleteCategoryUseCase Unit Test', () => {
@@ -9,7 +9,7 @@ describe('DeleteCategoryUseCase Unit Test', () => {
 
   beforeEach(() => {
     repository = new CategoryInMemoryRepository()
-    useCase = new DeleteCategoryUseCase.UseCase(repository)
+    useCase = new DeleteCategoryUseCase.UseCase(repository as any)
   })
 
   it('should throws error when entity not found', async () => {
@@ -21,7 +21,7 @@ describe('DeleteCategoryUseCase Unit Test', () => {
   it('should delete a category', async () => {
     const spyDelete = jest.spyOn(repository, 'delete')
     const entity = new Category({name: 'Movie'})
-    repository.items = [entity]
+    repository.items = [entity as any]
 
     expect(repository.items).toHaveLength(1)
 

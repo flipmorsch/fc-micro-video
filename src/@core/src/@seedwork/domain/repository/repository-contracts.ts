@@ -1,5 +1,5 @@
 import {Entity} from '../../domain'
-import UniqueEntityId from '../value-objects/unique-entity-id.vo'
+import {UniqueEntityId} from '../value-objects/unique-entity-id.vo'
 
 export interface RepositoryInterface<T extends Entity> {
   insert(entity: T): Promise<void>
@@ -95,7 +95,7 @@ export class SearchParams<Filter = string> {
   }
 }
 
-type SearchResultProps<E extends Entity, Filter> = {
+type SearchResultProps<E extends Entity, Filter = string> = {
   items: E[]
   total: number
   current_page: number

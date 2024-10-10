@@ -1,8 +1,8 @@
 import InvalidUuidError from '../errors/invalid-uuid.error'
-import { randomUUID } from 'crypto'
-import ValueObject from './value-object'
+import {randomUUID} from 'crypto'
+import {ValueObject} from './value-object'
 
-export default class UniqueEntityId extends ValueObject<string> {
+export class UniqueEntityId extends ValueObject<string> {
   constructor(readonly id?: string) {
     super(id || randomUUID())
     this.validate()
@@ -15,7 +15,6 @@ export default class UniqueEntityId extends ValueObject<string> {
     if (!isValid) throw new InvalidUuidError()
   }
 }
-
 
 export class UniqueEntityName extends ValueObject<string> {
   constructor(readonly id?: string) {

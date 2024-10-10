@@ -1,7 +1,10 @@
 import {Entity} from '../entity/entity'
 import {NotFoundError} from '../errors/not-found.error'
-import UniqueEntityId from '../value-objects/unique-entity-id.vo'
-import {InMemoryRepository, InMemorySearchableRepository} from './in-memory.repository'
+import {UniqueEntityId} from '../value-objects/unique-entity-id.vo'
+import {
+  InMemoryRepository,
+  InMemorySearchableRepository,
+} from './in-memory.repository'
 
 type StubEntityProps = {
   name: string
@@ -12,7 +15,10 @@ class StubEntity extends Entity<StubEntityProps> {}
 class StubInMemoryRepository extends InMemoryRepository<StubEntity> {}
 class StubInMemorySearchableRepository extends InMemorySearchableRepository<StubEntity> {
   sortableFields: string[] = ['name']
-  protected async applyFilter(items: StubEntity[], filter: string): Promise<StubEntity[]> {
+  protected async applyFilter(
+    items: StubEntity[],
+    filter: string
+  ): Promise<StubEntity[]> {
     if (!filter) return items
 
     return items.filter(item => {
@@ -41,8 +47,12 @@ describe('InMemoryRepository Unit Tests', () => {
       new NotFoundError('Entity not found using ID fake id')
     )
 
-    expect(repository.findById('831a4ff9-177c-4ef5-8b3c-2be43d5bc3df')).rejects.toThrow(
-      new NotFoundError('Entity not found using ID 831a4ff9-177c-4ef5-8b3c-2be43d5bc3df')
+    expect(
+      repository.findById('831a4ff9-177c-4ef5-8b3c-2be43d5bc3df')
+    ).rejects.toThrow(
+      new NotFoundError(
+        'Entity not found using ID 831a4ff9-177c-4ef5-8b3c-2be43d5bc3df'
+      )
     )
   })
 
@@ -92,7 +102,10 @@ describe('InMemoryRepository Unit Tests', () => {
     const entity = new StubEntity({name: 'test', price: 10})
     await repository.insert(entity)
 
-    const newEntity = new StubEntity({name: 'test 2', price: 20}, entity.uniqueEntityId)
+    const newEntity = new StubEntity(
+      {name: 'test 2', price: 20},
+      entity.uniqueEntityId
+    )
     await repository.update(newEntity)
     const result = await repository.findById(entity.id)
     expect(result.toJSON()).toStrictEqual(newEntity.toJSON())

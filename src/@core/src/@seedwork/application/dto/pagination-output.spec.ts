@@ -1,5 +1,5 @@
-import { SearchResult } from "../../domain/repository/repository-contracts"
-import { PaginationOutputDTOMapper } from "./pagination-output"
+import {SearchResult} from '../../domain/repository/repository-contracts'
+import {PaginationOutputDTOMapper} from './pagination-output'
 
 describe('PaginationOutputDTOMapper', () => {
   test('should convert a SearchResult to an output', () => {
@@ -12,12 +12,14 @@ describe('PaginationOutputDTOMapper', () => {
       sort_dir: null,
       filter: null,
     })
-    const output = PaginationOutputDTOMapper.toPaginationOutput(searchResult)
+    const output = PaginationOutputDTOMapper.toPaginationOutput(
+      searchResult as any
+    )
     expect(output).toStrictEqual({
-       total: 1,
-       current_page: 1,
-       per_page: 1,
-       last_page: 1,
+      total: 1,
+      current_page: 1,
+      per_page: 1,
+      last_page: 1,
     })
   })
 })

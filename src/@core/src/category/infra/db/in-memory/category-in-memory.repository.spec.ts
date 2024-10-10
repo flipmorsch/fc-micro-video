@@ -1,5 +1,5 @@
-import {Category} from '../../domain/entities/category'
-import {CategoryInMemoryRepository} from './category-in-memory.repository'
+import {Category} from '#category/domain'
+import {CategoryInMemoryRepository} from '#category/infra'
 
 describe('CategoryInMemoryRepository test', () => {
   let repository: CategoryInMemoryRepository
@@ -10,11 +10,11 @@ describe('CategoryInMemoryRepository test', () => {
     const items = [new Category({name: 'any name'})]
     const spyFilter = jest.spyOn(items, 'filter')
 
-    let itemsFilter = await repository['applyFilter'](items, null)
+    let itemsFilter = await repository['applyFilter'](items, null as any)
     expect(itemsFilter).toStrictEqual(items)
     expect(spyFilter).not.toHaveBeenCalled()
 
-    itemsFilter = await repository['applyFilter'](items, undefined)
+    itemsFilter = await repository['applyFilter'](items, undefined as any)
     expect(itemsFilter).toStrictEqual(items)
     expect(spyFilter).not.toHaveBeenCalled()
   })

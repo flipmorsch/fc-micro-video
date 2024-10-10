@@ -1,5 +1,5 @@
 import {Entity} from '../../../@seedwork/domain/entity/entity'
-import UniqueEntityId from '../../../@seedwork/domain/value-objects/unique-entity-id.vo'
+import {UniqueEntityId} from '../../../@seedwork/domain/value-objects/unique-entity-id.vo'
 import CategoryValidatorFactory from '../validators/category.validator'
 import {EntityValidationError} from '../../../@seedwork/domain/errors/validation-error'
 
@@ -11,7 +11,10 @@ export type CategoryProperties = {
 }
 
 export class Category extends Entity<CategoryProperties> {
-  constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
+  constructor(
+    public readonly props: CategoryProperties,
+    id?: UniqueEntityId
+  ) {
     super(props, id)
     Category.validate(props)
     this.description = props.description
