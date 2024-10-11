@@ -1,4 +1,4 @@
-import {Sequelize} from 'sequelize-typescript'
+import {DataType, Sequelize} from 'sequelize-typescript'
 import {CategoryModel} from './category.model'
 
 describe('CategoryModel Tests', () => {
@@ -17,6 +17,46 @@ describe('CategoryModel Tests', () => {
   beforeEach(async () => await sequelize.sync({force: true}))
 
   afterAll(async () => await sequelize.close())
+
+  test('mapping props', () => {
+    const attributesMap = CategoryModel.getAttributes()
+    expect(Object.keys(attributesMap)).toStrictEqual([
+      'id',
+      'name',
+      'description',
+      'is_active',
+      'created_at',
+    ])
+
+    expect(attributesMap.id).toMatchObject({
+      field: 'id',
+      primaryKey: true,
+      type: DataType.UUID(),
+    })
+
+    expect(attributesMap.name).toMatchObject({
+      field: 'name',
+      allowNull: false,
+      type: DataType.STRING(255),
+    })
+
+    expect(attributesMap.description).toMatchObject({
+      field: 'description',
+      type: DataType.TEXT(),
+    })
+
+    expect(attributesMap.is_active).toMatchObject({
+      field: 'is_active',
+      allowNull: false,
+      type: DataType.BOOLEAN(),
+    })
+
+    expect(attributesMap.created_at).toMatchObject({
+      field: 'created_at',
+      type: DataType.DATE(),
+      allowNull: false,
+    })
+  })
 
   test('create', async () => {
     const arrange = {

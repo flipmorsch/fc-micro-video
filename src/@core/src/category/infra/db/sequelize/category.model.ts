@@ -20,9 +20,9 @@ export class CategoryModel extends Model<CategoryModelProperties> {
   @Column({type: DataType.TEXT})
   declare description?: string
 
-  @Column({type: DataType.BOOLEAN, defaultValue: true})
+  @Column({type: DataType.BOOLEAN, defaultValue: true, allowNull: false})
   declare is_active?: boolean
 
-  @Column({type: DataType.DATE, defaultValue: new Date()})
+  @Column({type: DataType.DATE, defaultValue: new Date(), allowNull: false})
   declare created_at?: Date
 }
