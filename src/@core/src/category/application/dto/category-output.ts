@@ -1,4 +1,4 @@
-import {Category} from '#category/domain'
+import {Category} from '../../domain'
 
 export type CategoryOutput = {
   id: string

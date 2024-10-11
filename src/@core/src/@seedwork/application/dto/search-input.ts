@@ -1,4 +1,4 @@
-import {SortDirection} from '#seedwork/domain'
+import {SortDirection} from '../../domain'
 
 export type SearchInputDTO = {
   page?: number

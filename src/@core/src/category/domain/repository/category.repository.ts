@@ -2,7 +2,7 @@ import {
   SearchableRepositoryInterface,
   SearchParams as DefaultSearchParams,
   SearchResult as DefaultSearchResult,
-} from '#seedwork/domain'
+} from '../../../@seedwork/domain'
 import {Category} from '../entities/category'
 
 export namespace CategoryRepository {
