@@ -47,7 +47,7 @@ describe('CategoryModelMapper Tests', () => {
     const genericError = new Error('Generic error')
     const spyValidate = jest
       .spyOn(Category, 'validate')
-      .mockImplementation(() => {
+      .mockImplementationOnce(() => {
         throw genericError
       })
     const model = CategoryModel.build({

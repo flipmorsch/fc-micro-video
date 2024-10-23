@@ -64,4 +64,12 @@ describe('CategorySequelizeRepository tests', () => {
     let category = await repository.findById(entity.id)
     expect(category.toJSON()).toStrictEqual(entity.toJSON())
   })
+
+  it('should return all categories', async () => {
+    const entity = new Category({name: 'Movie'})
+    await repository.insert(entity as any)
+    const entities = await repository.findAll()
+    expect(entities).toHaveLength(1)
+    expect(entities[0].toJSON()).toStrictEqual(entity.toJSON())
+  })
 })
