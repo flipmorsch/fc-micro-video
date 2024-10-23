@@ -2,7 +2,7 @@ import {Sequelize} from 'sequelize-typescript'
 import {CategoryModel} from './category.model'
 import {CategorySequelizeRepository} from './category.repository'
 import {CategoryModelMapper} from './category.mapper'
-import {LoadEntityError} from '#seedwork/domain'
+import {LoadEntityError, UniqueEntityId} from '#seedwork/domain'
 import {Category} from '#category/domain'
 
 describe('CategoryModelMapper Tests', () => {
@@ -55,5 +55,28 @@ describe('CategoryModelMapper Tests', () => {
     } as any)
     expect(() => CategoryModelMapper.toEntity(model)).toThrow(genericError)
     expect(spyValidate).toHaveBeenCalled()
+  })
+
+  it('should convert a category model to a category entity', () => {
+    const created_at = new Date()
+    const model = CategoryModel.build({
+      id: '831a4ff9-177c-4ef5-8b3c-2be43d5bc3df',
+      name: 'Movie',
+      description: 'Some description',
+      is_active: true,
+      created_at,
+    })
+    const entity = CategoryModelMapper.toEntity(model)
+    expect(entity.toJSON()).toStrictEqual(
+      new Category(
+        {
+          name: 'Movie',
+          description: 'Some description',
+          is_active: true,
+          created_at,
+        },
+        new UniqueEntityId('831a4ff9-177c-4ef5-8b3c-2be43d5bc3df')
+      ).toJSON()
+    )
   })
 })
