@@ -2,6 +2,7 @@ import {Sequelize} from 'sequelize-typescript'
 import {CategoryModel} from './category.model'
 import {Category} from '../../../domain'
 import {CategorySequelizeRepository} from './category.repository'
+import {NotFoundError} from '#seedwork/domain'
 
 describe('CategorySequelizeRepository tests', () => {
   let sequelize: Sequelize
@@ -32,10 +33,35 @@ describe('CategorySequelizeRepository tests', () => {
     expect(model?.dataValues.is_active).toBeTruthy()
     expect(model?.dataValues.created_at).toBeInstanceOf(Date)
 
-    category = new Category({name: 'Movie', description: 'some description', is_active: false})
+    category = new Category({
+      name: 'Movie',
+      description: 'some description',
+      is_active: false,
+    })
     await repository.insert(category as any)
     model = await CategoryModel.findOne({where: {id: category.id}})
     expect(model?.toJSON()).toStrictEqual(category.toJSON())
     expect(model?.dataValues.is_active).toBeFalsy()
+  })
+
+  it('should throw a error when try to find an entity that not exists', async () => {
+    await expect(repository.findById('fake id')).rejects.toThrow(
+      new NotFoundError('Entity Not Found using ID fake id')
+    )
+
+    await expect(
+      repository.findById('831a4ff9-177c-4ef5-8b3c-2be43d5bc3df')
+    ).rejects.toThrow(
+      new NotFoundError(
+        'Entity Not Found using ID 831a4ff9-177c-4ef5-8b3c-2be43d5bc3df'
+      )
+    )
+  })
+
+  it('should find a category by id', async () => {
+    const entity = new Category({name: 'Movie'})
+    await repository.insert(entity as any)
+    let category = await repository.findById(entity.id)
+    expect(category.toJSON()).toStrictEqual(entity.toJSON())
   })
 })
